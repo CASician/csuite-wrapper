@@ -1,3 +1,8 @@
+/**
+ * API Routing Integration Tests
+ * This suite tests the actual HTTP endpoints of the microservice to ensure 
+ * the Express router and server middleware are correctly configured.
+ */
 const chai = require('chai');
 const should = chai.should();
 const { createUserPayload } = require('../../lib/util/userPayload');
@@ -9,10 +14,16 @@ describe('Accounts', () => {
     const surname = 'withantennacheck';
     const data = createUserPayload({ givenName: name, surname: surname });
 
+    /**
+    * API Routing Integration Tests
+    * This suite tests the actual HTTP endpoints of the microservice to ensure 
+    * the Express router and server middleware are correctly configured.
+    */
     before(async () => await startServer());
     after(async () => await stopServer());
 
     describe('POST /account', function () {
+        // High timeout to accommodate external G-Suite API latency
         this.timeout(15000);
         it('Should add an account', async function() {
             payload = structuredClone(data);

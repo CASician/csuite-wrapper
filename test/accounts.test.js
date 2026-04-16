@@ -10,13 +10,17 @@ describe('Accounts', () => {
     const name = 'test';
     const surname = 'isTesting';
 
+    // Generates the standard user object/payload required by Google APIs
     const data = createUserPayload({ givenName: name, surname: surname });
     
     describe('CRUD Accounts', function () {
+        // Increases timeout to 15 seconds because Google API calls are slow (default is 2s)
         this.timeout(15000);
         it('Should add an account', async function() {
             // const payload = JSON.parse(JSON.stringify(data));
-            // this should be the new version, faster and keeping extra details
+            // below should be the new version, faster and keeping extra details
+            // structuredClone creates a deep copy of 'data' to prevent mutating the original object
+            // need Node.js 17 or higher
             const payload = structuredClone(data);
             
             const res = await runGsuiteOperation(gsuiteOperations.addAccount, payload);
@@ -37,6 +41,8 @@ describe('Accounts', () => {
 
             const res = await runGsuiteOperation(gsuiteOperations.suspendAccount, payload);
             res.code.should.equal(200);
+            // TODO add check that suspended is set to True. 
+            // I checked manually. 
         });
 
         it('Should activate an account', async function() {
@@ -44,6 +50,8 @@ describe('Accounts', () => {
 
             const res = await runGsuiteOperation(gsuiteOperations.activateAccount, payload);
             res.code.should.equal(200);
+            // TODO add check that suspended is set to False. 
+            // I checked manually. 
         });
 
     })
