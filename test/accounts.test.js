@@ -40,18 +40,18 @@ describe('Accounts', () => {
             const payload = structuredClone(data);
 
             const res = await runGsuiteOperation(gsuiteOperations.suspendAccount, payload);
+            // console.log(res);
             res.code.should.equal(200);
-            // TODO add check that suspended is set to True. 
-            // I checked manually. 
+            res.data.suspended.should.equal(true);
         });
 
         it('Should activate an account', async function() {
             const payload = structuredClone(data);
 
             const res = await runGsuiteOperation(gsuiteOperations.activateAccount, payload);
+            // console.log(res);
             res.code.should.equal(200);
-            // TODO add check that suspended is set to False. 
-            // I checked manually. 
+            res.data.suspended.should.equal(false);
         });
 
     })
